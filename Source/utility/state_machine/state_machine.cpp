@@ -18,6 +18,15 @@ namespace utility {
 
 
 //template<typename StateHandler, typename State>
+//StateMachine<typename StateHandler, typename State>::StateMachine(StateHandler &handler, function_t handler_exit, const int limit_step_count)
+//:
+//    limit_step_count    (limit_step_count),
+//    handler             (&handler),
+//    handler_exit        (handler_exit)
+//{}
+
+
+//template<typename StateHandler, typename State>
 //void StateMachine<StateHandler, State>::addStateHandler(const State &state, const function_t function) throw(StateMachine::Exception) {
 //    pair_state_function_t pair(state, function);
 //    /*

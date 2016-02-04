@@ -1,5 +1,5 @@
 /*
- * convertation.h
+ * convertion.h
  *
  *  Created on: 08.12.2011
  *      Author: volodja

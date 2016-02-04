@@ -1,5 +1,5 @@
 /*
- * convertation.cpp
+ * convertion.cpp
  *
  *  Created on: 08.12.2011
  *      Author: volodja
