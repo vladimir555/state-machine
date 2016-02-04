@@ -16,7 +16,7 @@
 #include <vector>
 #include "utility/logger.h"
 #include "utility/exception/exception.h"
-#include "utility/convertation/convertation.h"
+#include "utility/convertion.h"
 
 
 #include <iostream>
@@ -94,8 +94,7 @@ public:
         limit_step_count    (limit_step_count),
         handler             (&handler),
         handler_exit        (handler_exit)
-    {
-    }
+    {}
     /**
      *  добавить обработчик для контекста
      *  @param  state       уникальный контекст
@@ -115,6 +114,8 @@ public:
          */
         vector_state_function.push_back(pair);
     }
+
+
     /**
      *  запустить конечный автомат
      *  @param  state_container   контейнер с текущим контекстом
