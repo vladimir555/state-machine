@@ -15,7 +15,7 @@ namespace utility {
 string  Convert::numberToString(int64_t number, int base, size_t count_symbols) throw(Convert::Exception) {
     if (base < 2  ||  base > 16)
         throw Exception(EXCEPTION_CONVERT_BAD_NUMBER, "Wrong number base, must be 2..16");
-    if (count_symbols < 0  ||  count_symbols > 256)
+    if (count_symbols > 256)
         throw Exception(EXCEPTION_CONVERT_BAD_INDEX,  "Wrong number count symbols, must be 0..256");
     if (number < 0)
         throw Exception(EXCEPTION_CONVERT_BAD_NUMBER, "Wrong number, must be 0..");
@@ -165,7 +165,7 @@ string  Convert::dateTimeToString(const time_t &date_time) {
  *  @param  max_string_length    максимальная длина каждой строки
  */
 text_t  Convert::stringToFixedWideText(string &str_source, const size_t max_string_length) {
-    if (max_string_length < 0  ||  max_string_length > 256)
+    if (max_string_length > 256)
         throw Exception(EXCEPTION_CONVERT_BAD_INDEX, "Wrong max string length " + numberToString(max_string_length));
 
     string word;
@@ -193,7 +193,7 @@ text_t  Convert::stringToFixedWideText(string &str_source, const size_t max_stri
 
 
 text_t  Convert::textToFixedWideText(const text_t &text_source, const size_t max_string_length) {
-    if (max_string_length < 0  ||  max_string_length > 256)
+    if (max_string_length > 256)
         throw Exception(EXCEPTION_CONVERT_BAD_INDEX, "Wrong max string length " + numberToString(max_string_length));
 
     string str;
