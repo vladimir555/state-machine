@@ -33,7 +33,7 @@ class SocketServer {
 private:
     bool                is_open;
     utility::word_t     port;
-    int                 request_connect_queue;
+//    int                 request_connect_queue;
     int                 socket_fd_listen;
 
     LOG_DEFINE;

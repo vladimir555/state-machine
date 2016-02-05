@@ -39,8 +39,11 @@ void SocketServer::open() throw(SocketServer::Exception) {
 
         LOG_DEBUG("Socket bind port " << port);
         /* Now bind the host address using bind() call.*/
-        if (bind(socket_fd_listen, (struct sockaddr*) &server_host, sizeof(server_host)) < 0)
-            throw Exception(EXCEPTION_ERROR_CONNECT, "Socket binding error");
+        //TODO: process bind result
+//        auto bind_result =
+          bind(socket_fd_listen, (struct sockaddr*) &server_host, sizeof(server_host));
+//        if (bind_result < 0)
+//            throw Exception(EXCEPTION_ERROR_CONNECT, "Socket binding error");
 
         is_open = true;
     } catch (const exception &e) {
@@ -130,8 +133,8 @@ void SocketServer::waitExchange(RequestHandler &request_handler) throw(SocketSer
 SocketServer::SocketServer(utility::word_t port, int request_connect_queue_size)
 :
     is_open                 (false),
-    port                    (port),
-    request_connect_queue   (request_connect_queue_size)
+    port                    (port)
+//    request_connect_queue   (request_connect_queue_size)
 {
 }
 

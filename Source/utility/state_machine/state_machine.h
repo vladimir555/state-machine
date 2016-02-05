@@ -13,7 +13,7 @@
 #define STATE_MACHINE_H_
 
 
-#include <vector>
+#include <list>
 #include "utility/logger.h"
 #include "utility/exception/exception.h"
 #include "utility/convertion.h"
@@ -66,7 +66,7 @@ private:
     /**
      *  тип список контекст(состояние) - обработчик
      */
-    typedef vector<pair_state_function_t>       vector_state_function_t;
+    typedef list<pair_state_function_t>       state_function_list_t;
     /**
      *  указатель на класс с методами - обработчиками контекста
      */
@@ -74,7 +74,7 @@ private:
     /**
      *  список контекст(состояние) - обработчик
      */
-    vector_state_function_t                     vector_state_function;
+    state_function_list_t                       state_function_list;
     /**
      *
      */
@@ -97,7 +97,7 @@ public:
     void                                        addStateHandler(const State &state, const function_t function) throw(Exception);
     /**
      *  запустить конечный автомат
-     *  @param  state_container   контейнер с текущим контекстом
+     *  @param  state       контейнер с текущим состоянием
      */
     void                                        processing(State &state) throw(Exception);
 };
@@ -118,14 +118,14 @@ void StateMachine<StateHandler, State>::addStateHandler(const State &state, cons
     /*
      *  проверка на уникальность добавляемых данных по первому значению (состоянию машины) в паре
      */
-    for (size_t i = 0; i < vector_state_function.size(); i++) {
-        if (pair.first.equivalent(vector_state_function[i].first))
+    for (auto i: state_function_list) {
+        if (pair.first.equivalent(i.first))
             throw Exception(CODE_ERROR_NOT_UNIQUE_STATE, "Error add not unique state to the state machine");
     }
     /*
      *  в список обработчиков контекста добавляем обработчик с уникальными атрибутами контекста
      */
-    vector_state_function.push_back(pair);
+    state_function_list.push_back(pair);
 }
 
 
@@ -139,12 +139,13 @@ void StateMachine<StateHandler, State>::processing(State &state) throw(StateMach
          *  поиск и выполнение обработчика для текущего состояния
          */
         function = NULL;
-        for (size_t i = 0; i < vector_state_function.size(); i++) {
-            if (state.equivalent(vector_state_function[i].first)) {
+//        for (size_t i = 0; i < state_function_list.size(); i++) {
+        for (auto i: state_function_list) {
+            if (state.equivalent(i.first)) {
                 if (step_count < limit_step_count) {
                     step_count++;
-                    function = vector_state_function[i].second;
-                    (handler->*vector_state_function[i].second)(state);
+                    function = i.second;
+                    (handler->*i.second)(state);
                     break;
                 } else
                     throw Exception(CODE_ERROR_OVERFLOW_LIMIT_STEP_COUNT, "Overflow step limit count " + Convert::numberToString(step_count));
