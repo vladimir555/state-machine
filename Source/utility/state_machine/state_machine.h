@@ -6,7 +6,7 @@
  */
 
 
-//#pragma interface //"utility/state_machine/state_machine.h"
+
 
 
 #ifndef STATE_MACHINE_H_
@@ -26,7 +26,6 @@ using namespace std;
 
 
 namespace utility {
-//namespace state_machine {
 
 
 /**
@@ -89,96 +88,78 @@ public:
      *  конструктор конечного автомата
      *  @param  handler     объект класса с методами обработчиками состояний
      */
-                                                StateMachine(StateHandler &handler, function_t handler_exit, const int limit_step_count)
-    :
-        limit_step_count    (limit_step_count),
-        handler             (&handler),
-        handler_exit        (handler_exit)
-    {}
+                                                StateMachine(StateHandler &handler, function_t handler_exit, const int limit_step_count);
     /**
      *  добавить обработчик для контекста
      *  @param  state       уникальный контекст
      *  @param  function    обработчик
      */
-    void                                        addStateHandler(const State &state, const function_t function) throw(Exception) {
-        pair_state_function_t pair(state, function);
-        /*
-         *  проверка на уникальность добавляемых данных по первому значению (состоянию машины) в паре
-         */
-        for (size_t i = 0; i < vector_state_function.size(); i++) {
-            if (pair.first.equivalent(vector_state_function[i].first))
-                throw Exception(CODE_ERROR_NOT_UNIQUE_STATE, "Error add not unique state to the state machine");
-        }
-        /*
-         *  в список обработчиков контекста добавляем обработчик с уникальными атрибутами контекста
-         */
-        vector_state_function.push_back(pair);
-    }
-
-
+    void                                        addStateHandler(const State &state, const function_t function) throw(Exception);
     /**
      *  запустить конечный автомат
      *  @param  state_container   контейнер с текущим контекстом
      */
-    void                                        processing(State &state) throw(Exception) {
-        int         step_count  = 0;
-        function_t  function;
-
-//        do {
-//            /*
-//             *  поиск и выполнение обработчика для текущего состояния
-//             */
-//            function = NULL;
-//            for (size_t i = 0; i < vector_state_function.size(); i++) {
-//                if (state.equivalent(vector_state_function[i].first)) {
-//                    function = vector_state_function[i].second;
-//                    break;
-//                }
-//            }
-//            /*
-//             *  если не было найдено обработчика для текущего контекста то делаем исключение
-//             */
-//            if  (function == NULL)
-//                throw Exception(CODE_ERROR_HANDLER_NOT_FOUND, "StateHandler not found for current state");
-//            else {
-//                if (step_count < limit_step_count) {
-//                    step_count++;
-//                    (handler->*function)(state);
-//                } else
-//                    throw Exception(CODE_ERROR_OVERFLOW_LIMIT_STEP_COUNT, "Overflow step limit count " + Convert::numberToString(step_count));
-//            }
-//
-//        } while (function != handler_exit);
-
-
-        do {
-            /*
-             *  поиск и выполнение обработчика для текущего состояния
-             */
-            function = NULL;
-            for (size_t i = 0; i < vector_state_function.size(); i++) {
-                if (state.equivalent(vector_state_function[i].first)) {
-                    if (step_count < limit_step_count) {
-                        step_count++;
-                        function = vector_state_function[i].second;
-                        (handler->*vector_state_function[i].second)(state);
-                        break;
-                    } else
-                        throw Exception(CODE_ERROR_OVERFLOW_LIMIT_STEP_COUNT, "Overflow step limit count " + Convert::numberToString(step_count));
-                }
-            }
-            /*
-             *  если не было найдено обработчика для текущего контекста то делаем исключение
-             */
-            if  (function == NULL)
-                throw Exception(CODE_ERROR_HANDLER_NOT_FOUND, "Handler not found for current state");
-
-        } while (function != handler_exit);
-    }
+    void                                        processing(State &state) throw(Exception);
 };
 
 
-//} /* namespace state_machine */
+template<typename StateHandler, typename State>
+StateMachine<StateHandler, State>::StateMachine(StateHandler &handler, function_t handler_exit, const int limit_step_count)
+:
+    limit_step_count    (limit_step_count),
+    handler             (&handler),
+    handler_exit        (handler_exit)
+{}
+
+
+template<typename StateHandler, typename State>
+void StateMachine<StateHandler, State>::addStateHandler(const State &state, const function_t function) throw(StateMachine<StateHandler, State>::Exception) {
+    pair_state_function_t pair(state, function);
+    /*
+     *  проверка на уникальность добавляемых данных по первому значению (состоянию машины) в паре
+     */
+    for (size_t i = 0; i < vector_state_function.size(); i++) {
+        if (pair.first.equivalent(vector_state_function[i].first))
+            throw Exception(CODE_ERROR_NOT_UNIQUE_STATE, "Error add not unique state to the state machine");
+    }
+    /*
+     *  в список обработчиков контекста добавляем обработчик с уникальными атрибутами контекста
+     */
+    vector_state_function.push_back(pair);
+}
+
+
+template<typename StateHandler, typename State>
+void StateMachine<StateHandler, State>::processing(State &state) throw(StateMachine<StateHandler, State>::Exception) {
+    int         step_count  = 0;
+    function_t  function;
+
+    do {
+        /*
+         *  поиск и выполнение обработчика для текущего состояния
+         */
+        function = NULL;
+        for (size_t i = 0; i < vector_state_function.size(); i++) {
+            if (state.equivalent(vector_state_function[i].first)) {
+                if (step_count < limit_step_count) {
+                    step_count++;
+                    function = vector_state_function[i].second;
+                    (handler->*vector_state_function[i].second)(state);
+                    break;
+                } else
+                    throw Exception(CODE_ERROR_OVERFLOW_LIMIT_STEP_COUNT, "Overflow step limit count " + Convert::numberToString(step_count));
+            }
+        }
+        /*
+         *  если не было найдено обработчика для текущего контекста то делаем исключение
+         */
+        if  (function == NULL)
+            throw Exception(CODE_ERROR_HANDLER_NOT_FOUND, "Handler not found for current state");
+
+    } while (function != handler_exit);
+}
+
+
 } /* namespace utility */
 
 
