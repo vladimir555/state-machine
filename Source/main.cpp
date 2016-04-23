@@ -15,7 +15,8 @@
 #include "main.h"
 
 
-int main() {
+int 
+main() {
     network::Service service;
 
     service.start();

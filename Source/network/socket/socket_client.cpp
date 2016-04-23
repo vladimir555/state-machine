@@ -15,7 +15,9 @@ namespace network {
 LOG_IMPLEMENT(SocketClient);
 
 
-void SocketClient::open(const string &host_, const utility::word_t port_)   throw(SocketClient::Exception) {
+void 
+SocketClient::open(const string &host_, const utility::word_t port_)   
+throw(SocketClient::Exception) {
     try {
         if (is_open) {
             LOG_DEBUG("Socket already open");
@@ -54,7 +56,8 @@ void SocketClient::open(const string &host_, const utility::word_t port_)   thro
 }
 
 
-void SocketClient::close() {
+void 
+SocketClient::close() {
     try {
         if (!is_open) {
             LOG_DEBUG("Socket already closed");
@@ -74,7 +77,9 @@ void SocketClient::close() {
 }
 
 
-string SocketClient::exchange(const string &message)                     	throw(SocketClient::Exception) {
+string 
+SocketClient::exchange(const string &message)                     	
+throw(SocketClient::Exception) {
     try {
         string  response;
         char    buffer[256];

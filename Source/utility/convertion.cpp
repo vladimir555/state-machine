@@ -12,7 +12,9 @@
 namespace utility {
 
 
-string  Convert::numberToString(int64_t number, int base, size_t count_symbols) throw(Convert::Exception) {
+string  
+Convert::numberToString(int64_t number, int base, size_t count_symbols) 
+throw(Convert::Exception) {
     if (base < 2  ||  base > 16)
         throw Exception(EXCEPTION_CONVERT_BAD_NUMBER, "Wrong number base, must be 2..16");
     if (count_symbols > 256)
@@ -47,7 +49,9 @@ string  Convert::numberToString(int64_t number, int base, size_t count_symbols) 
 }
 
 
-int64_t Convert::stringToNumber(const string &number, int base) throw(Convert::Exception) {
+int64_t 
+Convert::stringToNumber(const string &number, int base) 
+throw(Convert::Exception) {
     if (base < 2  ||  base > 16)
         throw Exception(EXCEPTION_CONVERT_BAD_INDEX, "Wrong number base, must be 2..16");
 
@@ -77,7 +81,8 @@ int64_t Convert::stringToNumber(const string &number, int base) throw(Convert::E
 }
 
 
-string 	Convert::byteVectorToString(const vector<byte_t> &v) {
+string 	
+Convert::byteVectorToString(const vector<byte_t> &v) {
     if (v.empty())
         return "";
     else {
@@ -92,7 +97,8 @@ string 	Convert::byteVectorToString(const vector<byte_t> &v) {
 }
 
 
-string 	Convert::charVectorToString(const vector<byte_t> &v) {
+string 	
+Convert::charVectorToString(const vector<byte_t> &v) {
     string result;
 
     result.assign(v.begin(), v.end());
@@ -101,7 +107,9 @@ string 	Convert::charVectorToString(const vector<byte_t> &v) {
 }
 
 
-time_t  Convert::stringToDateTime(const string &date_time_string) throw(Convert::Exception) {
+time_t  
+Convert::stringToDateTime(const string &date_time_string) 
+throw(Convert::Exception) {
     if (date_time_string.size() != 10  &&  date_time_string.size() != 19)
         throw Exception(EXCEPTION_CONVERT_BAD_STRING, "Wrong date string '" + date_time_string + "'");
 
@@ -139,7 +147,8 @@ time_t  Convert::stringToDateTime(const string &date_time_string) throw(Convert:
 }
 
 
-string  Convert::dateTimeToString(const time_t &date_time) {
+string  
+Convert::dateTimeToString(const time_t &date_time) {
     string          result;
     struct tm      *tm_;
 
@@ -164,7 +173,8 @@ string  Convert::dateTimeToString(const time_t &date_time) {
  *  конвертировать длинную строку в список строк с переносом по словам, где длина каждой строки не больше max_string_length
  *  @param  max_string_length    максимальная длина каждой строки
  */
-text_t  Convert::stringToFixedWideText(string &str_source, const size_t max_string_length) {
+text_t  
+Convert::stringToFixedWideText(string &str_source, const size_t max_string_length) {
     if (max_string_length > 256)
         throw Exception(EXCEPTION_CONVERT_BAD_INDEX, "Wrong max string length " + numberToString(max_string_length));
 
@@ -192,7 +202,8 @@ text_t  Convert::stringToFixedWideText(string &str_source, const size_t max_stri
 }
 
 
-text_t  Convert::textToFixedWideText(const text_t &text_source, const size_t max_string_length) {
+text_t  
+Convert::textToFixedWideText(const text_t &text_source, const size_t max_string_length) {
     if (max_string_length > 256)
         throw Exception(EXCEPTION_CONVERT_BAD_INDEX, "Wrong max string length " + numberToString(max_string_length));
 

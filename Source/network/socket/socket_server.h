@@ -31,19 +31,31 @@ namespace network {
  */
 class SocketServer {
 private:
-    bool                is_open;
-    utility::word_t     port;
-//    int                 request_connect_queue;
-    int                 socket_fd_listen;
+
+    bool                
+    is_open;    
+
+    utility::word_t     
+    port;
+    
+//    int                 
+//    request_connect_queue;
+    /**
+     */
+    int                 
+    socket_fd_listen;
 
     LOG_DEFINE;
 
 public:
     class RequestHandler {
     public:
-        virtual string  handleRequest(const string &request) = 0;
-                        RequestHandler() {};
-        virtual        ~RequestHandler() {};
+        virtual string 
+        handleRequest(const string &request) = 0;
+        
+        RequestHandler() {};
+        
+        virtual ~RequestHandler() {};
     };
 
     enum ExceptionCode {
@@ -51,29 +63,36 @@ public:
         EXCEPTION_ERROR_DISCONNECT,
         EXCEPTION_ERROR_EXCHANGE
     };
-    typedef utility::Exception<ExceptionCode> Exception;
+    typedef utility::Exception<ExceptionCode> 
+    Exception;
     /**
      *  открыть сокет
      *  @param  port    порт
      */
-    void        open()                                          throw(Exception);
+    void        
+    open()                                          
+    throw(Exception);
     /**
      *  закрыть сокет
      */
-    void        close()                                         throw(Exception);
+    void        
+    close()                                         
+    throw(Exception);
     /**
      *  ожидать сообщения через сокет
      *  @return         сообщение
      */
-    void        waitExchange(RequestHandler &request_handler)   throw(Exception);
+    void        
+    waitExchange(RequestHandler &request_handler)   
+    throw(Exception);
     /**
      *  конструктор
      */
-                SocketServer(utility::word_t port, int request_connect_queue_size);
+    SocketServer(utility::word_t port, int request_connect_queue_size);
     /**
      *  деструктор
      */
-    virtual    ~SocketServer();
+    virtual ~SocketServer();
 };
 
 

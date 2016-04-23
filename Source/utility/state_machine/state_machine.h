@@ -54,52 +54,61 @@ private:
     /**
      *  максимальное количество шагов конечного автомата
      */
-    const int                                   limit_step_count;
+    const int                                   
+    limit_step_count;
     /**
      *  тип функции обработчика, изменяет изменяет контекст
      */
-    typedef void                                (StateHandler::*function_t)(State &state);
+    typedef void                                
+    (StateHandler::*function_t)(State &state);
     /**
      *  пара: состояние - обработчик
      */
-    typedef pair<State, function_t>             pair_state_function_t;
+    typedef pair<State, function_t>             
+    pair_state_function_t;
     /**
      *  тип список контекст(состояние) - обработчик
      */
-    typedef list<pair_state_function_t>       state_function_list_t;
+    typedef list<pair_state_function_t>       
+    state_function_list_t;
     /**
      *  указатель на класс с методами - обработчиками контекста
      */
-    StateHandler                               *handler;
+    StateHandler*
+    handler;
     /**
      *  список контекст(состояние) - обработчик
      */
-    state_function_list_t                       state_function_list;
+    state_function_list_t                       
+    state_function_list;
     /**
      *
      */
-    function_t                                  handler_exit;
+    function_t                                  
+    handler_exit;
     /**
      *  конструктор по умолчанию для конечного автомата запрещен
-     */
-                                                StateMachine();
+     */                                                
+    StateMachine();
 public:
     /**
      *  конструктор конечного автомата
      *  @param  handler     объект класса с методами обработчиками состояний
      */
-                                                StateMachine(StateHandler &handler, function_t handler_exit, const int limit_step_count);
+    StateMachine(StateHandler &handler, function_t handler_exit, const int limit_step_count);
     /**
      *  добавить обработчик для контекста
      *  @param  state       уникальный контекст
      *  @param  function    обработчик
      */
-    void                                        addStateHandler(const State &state, const function_t function) throw(Exception);
+    void                                        
+    addStateHandler(const State &state, const function_t function) throw(Exception);
     /**
      *  запустить конечный автомат
      *  @param  state       контейнер с текущим состоянием
      */
-    void                                        processing(State &state) throw(Exception);
+    void                                        
+    processing(State &state) throw(Exception);
 };
 
 
@@ -139,7 +148,6 @@ void StateMachine<StateHandler, State>::processing(State &state) throw(StateMach
          *  поиск и выполнение обработчика для текущего состояния
          */
         function = NULL;
-//        for (size_t i = 0; i < state_function_list.size(); i++) {
         for (auto i: state_function_list) {
             if (state.equivalent(i.first)) {
                 if (step_count < limit_step_count) {

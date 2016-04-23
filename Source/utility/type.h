@@ -18,9 +18,14 @@ namespace utility {
 
 using namespace std;
 
-typedef unsigned char               byte_t;
-typedef short unsigned int          word_t;
-typedef vector<string>              text_t;
+typedef unsigned char               
+byte_t;
+
+typedef short unsigned int          
+word_t;
+
+typedef vector<string>              
+text_t;
 }
 
 

@@ -16,7 +16,8 @@ LOG_IMPLEMENT(Service);
 
 
 //-----Service::State
-bool Service::State::equivalent(Service::State &state) {
+bool 
+Service::State::equivalent(Service::State &state) {
     if (state_current == state.state_current)
         return true;
     else
@@ -37,7 +38,8 @@ Service::State::~State() {
 
 
 //-----Service
-void Service::start() {
+void 
+Service::start() {
     service_state_machine.processing(service_state);
 }
 
@@ -64,12 +66,14 @@ Service::~Service() {
 }
 
 
-string Service::RequestHandler_::handleRequest(const string &request) {
+string 
+Service::RequestHandler_::handleRequest(const string &request) {
     return request + " - processed";
 }
 
 
-void Service::handleOnUnknownState(State &state) {
+void 
+Service::handleOnUnknownState(State &state) {
     LOG_DEBUG("Unknown state");
     LOG_INFO ("Initialize service");
     service_socket_server.open();
@@ -77,7 +81,8 @@ void Service::handleOnUnknownState(State &state) {
 }
 
 
-void Service::handleOnExit(State &state) {
+void 
+Service::handleOnExit(State &state) {
     LOG_DEBUG("Exit");
     LOG_INFO ("Shut down service");
 
@@ -87,7 +92,8 @@ void Service::handleOnExit(State &state) {
 }
 
 
-void Service::handleOnWaitRequest(State &state) {
+void 
+Service::handleOnWaitRequest(State &state) {
     LOG_INFO("Wait request");
 
     service_socket_server.waitExchange(service_request_handler);

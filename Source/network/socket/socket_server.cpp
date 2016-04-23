@@ -16,7 +16,9 @@ LOG_IMPLEMENT(SocketServer);
 
 
 //сделать логирование адреса входящего запроса
-void SocketServer::open() throw(SocketServer::Exception) {
+void 
+SocketServer::open() 
+throw(SocketServer::Exception) {
     try {
         if (is_open) {
             LOG_DEBUG("Socket already open");
@@ -54,7 +56,9 @@ void SocketServer::open() throw(SocketServer::Exception) {
 }
 
 
-void SocketServer::close() throw(SocketServer::Exception) {
+void 
+SocketServer::close() 
+throw(SocketServer::Exception) {
     try {
         if (!is_open) {
             LOG_DEBUG("Socket already closed");
@@ -74,7 +78,9 @@ void SocketServer::close() throw(SocketServer::Exception) {
 }
 
 
-void SocketServer::waitExchange(RequestHandler &request_handler) throw(SocketServer::Exception) {
+void 
+SocketServer::waitExchange(RequestHandler &request_handler) 
+throw(SocketServer::Exception) {
     string request;
     string answer;
 
@@ -135,8 +141,7 @@ SocketServer::SocketServer(utility::word_t port, int request_connect_queue_size)
     is_open                 (false),
     port                    (port)
 //    request_connect_queue   (request_connect_queue_size)
-{
-}
+{}
 
 
 SocketServer::~SocketServer() {
